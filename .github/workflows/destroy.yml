@@ -7,6 +7,16 @@ permissions:
   contents: read  # Isso permite que a action baixe o seu código
 
 jobs:
+
+  codevalidate:
+    name: "Verifica o código Terraform"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform init -backend=false
+      - run: terraform validate
+
   destroy:
     runs-on: ubuntu-latest
     env:
