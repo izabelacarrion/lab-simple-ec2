@@ -19,6 +19,7 @@ jobs:
 
   destroy:
     runs-on: ubuntu-latest
+    needs: [codevalidate]
     steps:
       - uses: actions/checkout@v4
 
@@ -33,11 +34,18 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
-      - name: Terraform Init e Workspace
+      - name: Criar arquivo de backend
         run: |
-          echo "${{ secrets.BACKEND_CONFIG }}" > backend.hcl
-          terraform init -backend-config="backend.hcl"
+          cat <<EOF > backend-config.tfvars
+          ${{ secrets.BACKEND_CONFIG }}
+          EOF
+
+      - name: Terraform Init e Workspace
+        run: 
+          terraform init -backend-config="backend-config.tfvars"
  
+      - name: Selecionar Workspace Adaptável
+        run:
           terraform workspace select stag || terraform workspace new stag
           
       - name: Terraform Destroy
