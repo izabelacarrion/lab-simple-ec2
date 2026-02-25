@@ -19,21 +19,26 @@ jobs:
 
   destroy:
     runs-on: ubuntu-latest
-    env:
-      TF_VAR_chave_ssh: ${{ github.ref == 'refs/heads/production' && secrets.CHAVE_PROD || secrets.CHAVE_STAG }}
     steps:
       - uses: actions/checkout@v4
-      - uses: aws-actions/configure-aws-credentials@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-      
+
       - name: Terraform Init e Workspace
         run: |
           echo "${{ secrets.BACKEND_CONFIG }}" > backend.hcl
           terraform init -backend-config="backend.hcl"
-          WORKSPACE=${{ github.ref == 'refs/heads/production' && 'prod' || 'stag' }}
-          terraform workspace select $WORKSPACE
+ 
+          terraform workspace select stag || terraform workspace new stag
           
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
