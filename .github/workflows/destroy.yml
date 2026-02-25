@@ -24,6 +24,7 @@ jobs:
     env:
       TF_VAR_chave_ssh: ${{ github.ref == 'refs/heads/production' && secrets.CHAVE_PROD || secrets.CHAVE_STAG }}
       AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      TF_VAR_bloco_ips_liberados: ${{ secrets.IPS_PERMITIDOS }}
     
     steps:
       - uses: actions/checkout@v4
