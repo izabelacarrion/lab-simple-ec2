@@ -42,7 +42,7 @@ jobs:
     needs: [codevalidate, security_scan]
     env:
       TF_VAR_chave_ssh: ${{ github.ref == 'refs/heads/production' && secrets.CHAVE_PROD || secrets.CHAVE_STAG }}
-
+      TF_VAR_bloco_ips_liberados: ${{ secrets.IPS_PERMITIDOS }}
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
