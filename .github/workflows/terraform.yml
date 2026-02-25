@@ -7,6 +7,10 @@ on:
       - production
       - staging
 
+permissions:
+  id-token: write # Isso permite que a action solicite o token OIDC
+  contents: read  # Isso permite que a action baixe o seu código
+
 jobs:
   # 1. Validação do código
   codevalidate:
