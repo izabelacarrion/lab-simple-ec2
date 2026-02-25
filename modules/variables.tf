@@ -9,6 +9,6 @@ variable "nome_ec2" {
 }
 
 variable "bloco_ips_liberados" {
-  type        = list(string)
+  type        = string
   description = "Define os endereços de IP liberados"
 }
