@@ -1,0 +1,3 @@
+# 🚀 Projeto de Infraestrutura como Código
+
+Este projeto demonstra o provisionamento de uma infraestrutura básica na AWS utilizando **Terraform**. O deploy é automatizado através de um pipeline de **CI/CD no GitHub Actions**, garantindo que a infraestrutura seja validada e aplicada de forma consistente. O intuito do projeto é realizar o deploy de uma EC2 com recursos mínimos para realização de eventuais testes.
